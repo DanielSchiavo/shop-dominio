@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.danielschiavo.shop.model.filestorage.ArquivoInfoDTO;
-import br.com.danielschiavo.shop.model.produto.categoria.MostrarCategoriaComSubCategoriaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +24,6 @@ public class DetalharProdutoDTO {
 	private Integer quantidade;
 	private Boolean ativo;
 	private List<ArquivoInfoDTO> arquivos;
-	private MostrarCategoriaComSubCategoriaDTO categoria;
+	private Long subCategoria;
 	
 }

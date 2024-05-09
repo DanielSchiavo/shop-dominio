@@ -2,7 +2,6 @@ package br.com.danielschiavo.shop.model.produto.dto;
 
 import java.math.BigDecimal;
 
-import br.com.danielschiavo.shop.model.produto.categoria.MostrarCategoriaComSubCategoriaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +20,6 @@ public class MostrarProdutosDTO {
 	private BigDecimal preco;
 	private Integer quantidade;
 	private Boolean ativo;
-	private MostrarCategoriaComSubCategoriaDTO categoria;
 	private byte[] primeiraImagem;
 
 }

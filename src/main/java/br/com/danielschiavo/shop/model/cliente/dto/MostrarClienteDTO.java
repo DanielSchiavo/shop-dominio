@@ -34,7 +34,4 @@ public class MostrarClienteDTO {
 	private String email;
 	private String celular;
 	private ArquivoInfoDTO fotoPerfil;
-	private Set<Role> roles;
-	private List<MostrarEnderecoDTO> enderecos;
-	private List<MostrarCartaoDTO> cartoes;
 }

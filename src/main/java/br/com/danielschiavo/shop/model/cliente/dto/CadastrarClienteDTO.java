@@ -32,7 +32,6 @@ public record CadastrarClienteDTO(
 		@NotBlank
 		@Size(min=11, max=11)
 		String celular,
-		@NotBlank
 		String fotoPerfil,
 		CadastrarEnderecoDTO endereco
 		) {

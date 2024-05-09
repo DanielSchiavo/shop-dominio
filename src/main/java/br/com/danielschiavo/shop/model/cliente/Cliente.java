@@ -19,7 +19,6 @@ import br.com.danielschiavo.shop.model.cliente.cartao.Cartao;
 import br.com.danielschiavo.shop.model.cliente.endereco.Endereco;
 import br.com.danielschiavo.shop.model.cliente.role.NomeRole;
 import br.com.danielschiavo.shop.model.cliente.role.Role;
-import br.com.danielschiavo.shop.model.produto.Produto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -258,7 +257,7 @@ public class Cliente implements UserDetails {
 	    public ClienteBuilder carrinho(boolean trueOrFalse) {
 	    	if (trueOrFalse == true) {
 	    		Carrinho carrinho = new Carrinho();
-	    		carrinho.setDataAtualizacao(LocalDateTime.now());
+	    		carrinho.setDataEHoraAtualizacao(LocalDateTime.now());
 	    		carrinho.setCliente(this.cliente);
 	    		this.cliente.setCarrinho(carrinho);
 	    		return this;
@@ -266,8 +265,8 @@ public class Cliente implements UserDetails {
 	    	return this;
 	    }
 	    
-		public ClienteBuilder comItemCarrinhoIdQuantidadeProduto(Long id, Integer quantidade, Produto produto) {
-			ItemCarrinho itemCarrinho = new ItemCarrinho(id, quantidade, produto, this.cliente.getCarrinho());
+		public ClienteBuilder comItemCarrinhoIdQuantidadeProduto(Long id, Integer quantidade, Long produtoId) {
+			ItemCarrinho itemCarrinho = ItemCarrinho.builder().id(id).quantidade(quantidade).produtoId(produtoId).dataEHoraInsercao(LocalDateTime.now()).build();
 			this.cliente.getCarrinho().adicionarItemCarrinho(itemCarrinho);
 			return this;
 		}
