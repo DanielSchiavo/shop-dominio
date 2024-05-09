@@ -15,8 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.danielschiavo.shop.model.cliente.carrinho.Carrinho;
 import br.com.danielschiavo.shop.model.cliente.carrinho.itemcarrinho.ItemCarrinho;
-import br.com.danielschiavo.shop.model.cliente.cartao.Cartao;
-import br.com.danielschiavo.shop.model.cliente.endereco.Endereco;
 import br.com.danielschiavo.shop.model.cliente.role.NomeRole;
 import br.com.danielschiavo.shop.model.cliente.role.Role;
 import jakarta.persistence.CascadeType;
@@ -75,37 +73,9 @@ public class Cliente implements UserDetails {
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<Role> roles = new HashSet<>();
 	
-    @Getter(value = AccessLevel.NONE)
-    @Setter(value = AccessLevel.NONE)
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<Endereco> enderecos = new ArrayList<>();
-
-    @Getter(value = AccessLevel.NONE)
-    @Setter(value = AccessLevel.NONE)
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-	private List<Cartao> cartoes = new ArrayList<>();
-	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Carrinho carrinho;
 	
-	
-	
-	
-	public List<Cartao> getCartoes() {
-		return Collections.unmodifiableList(this.cartoes);
-	}
-
-	public void adicionarCartao(Cartao cartao) {
-		this.cartoes.add(cartao);
-	}
-
-	public List<Endereco> getEnderecos() {
-		return Collections.unmodifiableList(this.enderecos);
-	}
-
-	public void adicionarEndereco(Endereco endereco) {
-		this.enderecos.add(endereco);
-	}
 	
 	public Set<Role> getRoles() {
 		return Collections.unmodifiableSet(this.roles);
@@ -242,18 +212,6 @@ public class Cliente implements UserDetails {
 			return this;
 		}
 		
-		public ClienteBuilder adicionarEndereco(Endereco endereco) {
-			endereco.setCliente(this.cliente);
-			this.cliente.adicionarEndereco(endereco);
-			return this;
-		}
-		
-		public ClienteBuilder adicionarCartao(Cartao cartao) {
-			cartao.setCliente(this.cliente);
-			this.cliente.adicionarCartao(cartao);
-			return this;
-		}
-		
 	    public ClienteBuilder carrinho(boolean trueOrFalse) {
 	    	if (trueOrFalse == true) {
 	    		Carrinho carrinho = new Carrinho();
@@ -286,12 +244,6 @@ public class Cliente implements UserDetails {
 	        	copiaCliente.setFotoPerfil(this.cliente.getFotoPerfil());
 	        	this.cliente.getRoles().forEach(role -> {
 	        		copiaCliente.adicionarRole(new Role(role.getId(), role.getDataAtribuicao(), role.getRole(), copiaCliente));
-	        	});
-	        	this.cliente.getEnderecos().forEach(endereco -> {
-	        		copiaCliente.adicionarEndereco(new Endereco(endereco.getId(), endereco.getCep(), endereco.getRua(), endereco.getNumero(), endereco.getComplemento(), endereco.getBairro(), endereco.getCidade(), endereco.getEstado(), endereco.getEnderecoPadrao(), copiaCliente));
-	        	});
-	        	this.cliente.getCartoes().forEach(cartao -> {
-	        		copiaCliente.adicionarCartao(new Cartao(cartao.getId(), cartao.getNomeBanco(), cartao.getNumeroCartao(), cartao.getNomeNoCartao(), cartao.getValidadeCartao(), cartao.getCartaoPadrao(), cartao.getTipoCartao(), copiaCliente));
 	        	});
 	        	this.cliente = null;
 	        	return copiaCliente;
