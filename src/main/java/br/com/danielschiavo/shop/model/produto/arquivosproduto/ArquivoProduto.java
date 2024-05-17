@@ -25,7 +25,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(exclude = "produto")
 @Builder
-@EqualsAndHashCode(of = "id")
 public class ArquivoProduto {
 	
 	@Id

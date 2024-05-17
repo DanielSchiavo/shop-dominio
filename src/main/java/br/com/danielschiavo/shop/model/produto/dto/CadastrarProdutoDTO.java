@@ -1,7 +1,6 @@
 package br.com.danielschiavo.shop.model.produto.dto;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
 import br.com.danielschiavo.shop.model.pedido.TipoEntrega;
@@ -12,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Builder;
 
 @Builder
-public record CadastrarProdutoDTO(
+public record CadastrarProdutoDTO (
 		@NotBlank
 		String nome,
 		@NotBlank
@@ -25,11 +24,12 @@ public record CadastrarProdutoDTO(
 		@NotNull
 		Boolean ativo,
 		@NotNull
-		Long idSubCategoria,
+		Long subCategoriaId,
 		@NotNull
-		Set<TipoEntrega> tipoEntrega,
+		Set<TipoEntrega> tiposEntrega,
 		@NotNull
-		List<ArquivoProdutoDTO> arquivos
-		) {
+		Set<ArquivoProdutoDTO> arquivos
+		) {	
+
 
 }

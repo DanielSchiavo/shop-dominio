@@ -1,7 +1,6 @@
 package br.com.danielschiavo.shop.model.produto.dto;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
 import br.com.danielschiavo.shop.model.pedido.TipoEntrega;
@@ -15,9 +14,9 @@ public record AlterarProdutoDTO(
 		BigDecimal preco,
 		Integer quantidade,
 		Boolean ativo,
-		Long idSubCategoria,
-		Set<TipoEntrega> tipoEntrega,
-		List<ArquivoProdutoDTO> arquivos
+		Long subCategoriaId,
+		Set<TipoEntrega> tiposEntrega,
+		Set<ArquivoProdutoDTO> arquivos
 		) {
 
 }

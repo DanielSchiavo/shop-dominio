@@ -24,9 +24,9 @@ import lombok.ToString;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(exclude = "produto")
+@ToString
 @Builder
-@EqualsAndHashCode(of = {"id", "produto", "tipoEntrega"})
+@EqualsAndHashCode(of = {"tipoEntrega"})
 public class TipoEntregaProduto {
 	
 	@Id

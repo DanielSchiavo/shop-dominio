@@ -9,6 +9,7 @@ import java.util.List;
 import br.com.danielschiavo.shop.model.cliente.Cliente;
 import br.com.danielschiavo.shop.model.cliente.carrinho.itemcarrinho.ItemCarrinho;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Table(name = "carrinhos")
+@Table(name = "clientes_carrinhos")
 @Entity(name = "Carrinho")
 @Getter
 @Setter
@@ -42,6 +43,7 @@ public class Carrinho {
 	
 	private BigDecimal valorTotal;
 	
+	@Column(name = "data_e_hora_atualizacao")
 	private LocalDateTime dataEHoraAtualizacao;
 	
 	@OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

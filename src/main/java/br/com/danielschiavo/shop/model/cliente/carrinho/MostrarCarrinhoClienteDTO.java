@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class MostrarCarrinhoClienteDTO {
 
-	private Long id;
+	private Long clienteId;
 	
 	private List<MostrarItemCarrinhoClienteDTO> itemsCarrinho;
 	

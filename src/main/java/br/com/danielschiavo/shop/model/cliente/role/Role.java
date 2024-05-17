@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.danielschiavo.shop.model.cliente.Cliente;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,7 +37,8 @@ public class Role {
 	@Id 
 	private Long id;
 	
-	private LocalDateTime dataAtribuicao;
+	@Column(name = "data_e_hora_atribuicao")
+	private LocalDateTime dataEHoraAtribuicao;
 	
 	@Enumerated(EnumType.STRING)
 	private NomeRole role;

@@ -221,7 +221,7 @@ public class Pedido {
 	            if (this.pedido.getItemsPedido().size() >= 1) {
 	            	AtomicReference<BigDecimal> valorTotal = new AtomicReference<>(BigDecimal.ZERO);
 	            	this.pedido.getItemsPedido().forEach(item -> {
-	            		copiaPedido.adicionarItemPedido(new ItemPedido(item.getId(), item.getPreco(), item.getQuantidade(), item.getNomeProduto(), item.getPrimeiraImagem(), item.getSubTotal(), item.getProdutoId(), null));
+	            		copiaPedido.adicionarItemPedido(new ItemPedido(item.getId(), item.getPreco(), item.getQuantidade(), item.getNomeProduto(), item.getPrimeiraImagem(), item.getSubTotal(), item.getProdutoId(), copiaPedido));
 	            		valorTotal.updateAndGet(v -> v.add(item.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade()))));
 	            	});
 	            	copiaPedido.setValorTotal(valorTotal.get());

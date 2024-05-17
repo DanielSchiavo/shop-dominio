@@ -7,6 +7,7 @@ public record MostrarCartaoDTO(
 			Long id,
 			String nomeBanco,
 			String numeroCartao,
+			String nomeNoCartao,
 			TipoCartao tipoCartao,
 			Boolean cartaoPadrao
 		) {

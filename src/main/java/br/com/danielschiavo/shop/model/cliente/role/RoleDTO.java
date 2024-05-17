@@ -2,11 +2,11 @@ package br.com.danielschiavo.shop.model.cliente.role;
 
 import jakarta.validation.constraints.NotNull;
 
-public record AdicionarRoleDTO(
+public record RoleDTO(
 		@NotNull
 		Long idCliente,
 		@NotNull
-		String role
+		NomeRole role
 		) {
 
 }

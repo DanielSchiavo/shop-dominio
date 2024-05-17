@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import br.com.danielschiavo.shop.model.cliente.carrinho.Carrinho;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Table(name = "carrinhos_items")
+@Table(name = "clientes_carrinhos_items")
 @Entity
 @Getter
 @Setter
@@ -37,8 +38,10 @@ public class ItemCarrinho {
     
     private BigDecimal subTotal;
     
+    @Column(name = "data_e_hora_insercao")
     private LocalDateTime dataEHoraInsercao;
     
+    @Column(name = "data_e_hora_atualizacao")
     private LocalDateTime dataEHoraAtualizacao;
 	
 	@ManyToOne

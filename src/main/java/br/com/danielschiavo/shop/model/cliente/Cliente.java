@@ -1,7 +1,6 @@
 package br.com.danielschiavo.shop.model.cliente;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,7 +13,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.danielschiavo.shop.model.cliente.carrinho.Carrinho;
-import br.com.danielschiavo.shop.model.cliente.carrinho.itemcarrinho.ItemCarrinho;
+import br.com.danielschiavo.shop.model.cliente.cartao.Cartao;
+import br.com.danielschiavo.shop.model.cliente.endereco.Endereco;
 import br.com.danielschiavo.shop.model.cliente.role.NomeRole;
 import br.com.danielschiavo.shop.model.cliente.role.Role;
 import jakarta.persistence.CascadeType;
@@ -28,6 +28,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 @EqualsAndHashCode(of = {"id", "email", "cpf"})
 public class Cliente implements UserDetails {
 
@@ -71,11 +73,40 @@ public class Cliente implements UserDetails {
     @Getter(value = AccessLevel.NONE)
     @Setter(value = AccessLevel.NONE)
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Builder.Default
 	private Set<Role> roles = new HashSet<>();
+    
+    @Getter(value = AccessLevel.NONE)
+    @Setter(value = AccessLevel.NONE)
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+	private List<Endereco> enderecos = new ArrayList<>();
+
+    @Getter(value = AccessLevel.NONE)
+    @Setter(value = AccessLevel.NONE)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+	private List<Cartao> cartoes = new ArrayList<>();
 	
 	@OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Carrinho carrinho;
 	
+	
+	public List<Cartao> getCartoes() {
+		return Collections.unmodifiableList(this.cartoes);
+	}
+
+	public void adicionarCartao(Cartao cartao) {
+		this.cartoes.add(cartao);
+	}
+
+	public List<Endereco> getEnderecos() {
+		return Collections.unmodifiableList(this.enderecos);
+	}
+
+	public void adicionarEndereco(Endereco endereco) {
+		this.enderecos.add(endereco);
+	}
 	
 	public Set<Role> getRoles() {
 		return Collections.unmodifiableSet(this.roles);
@@ -88,13 +119,6 @@ public class Cliente implements UserDetails {
 	public void removerRole(Role role) {
 		this.roles.remove(role);
 	}
-	
-	
-	
-	public static ClienteBuilder builder() {
-		return new ClienteBuilder();
-	}
-	
 	
 	
 	@Override
@@ -143,122 +167,5 @@ public class Cliente implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
 	
-	
-	public static class ClienteBuilder {
-		
-		private Cliente cliente;
-		private List<Cliente> listaClientes = new ArrayList<>();
-		
-		public ClienteBuilder id(Long id) {
-	        if(this.cliente != null) {
-	        	listaClientes.add(this.cliente);
-	        }
-			this.cliente = new Cliente();
-	        this.cliente.setId(id);
-			return this;
-		}
-
-		public ClienteBuilder cpf(String cpf) {
-	        this.cliente.setCpf(cpf);
-			return this;
-		}
-		
-		public ClienteBuilder nome(String nome) {
-	        this.cliente.setNome(nome);
-			return this;
-		}
-		
-		public ClienteBuilder sobrenome(String sobrenome) {
-	        this.cliente.setSobrenome(sobrenome);
-			return this;
-		}
-		
-		public ClienteBuilder dataNascimento(LocalDate dataNascimento) {
-	        this.cliente.setDataNascimento(dataNascimento);
-			return this;
-		}
-		
-		public ClienteBuilder dataCriacaoConta(LocalDate dataCriacaoConta) {
-	        this.cliente.setDataCriacaoConta(dataCriacaoConta);
-			return this;
-		}
-		
-		public ClienteBuilder email(String email) {
-	        this.cliente.setEmail(email);
-			return this;
-		}
-
-		public ClienteBuilder senha(String senha) {
-	        this.cliente.setSenha(senha);
-			return this;
-		}
-		
-		public ClienteBuilder celular(String celular) {
-	        this.cliente.setCelular(celular);
-			return this;
-		}
-		
-		public ClienteBuilder fotoPerfil(String fotoPerfil) {
-	        this.cliente.setFotoPerfil(fotoPerfil);
-			return this;
-		}
-		
-		public ClienteBuilder adicionarRole(Role role) {
-			role.setCliente(this.cliente);
-			role.setDataAtribuicao(LocalDateTime.now());
-			this.cliente.adicionarRole(role);
-			return this;
-		}
-		
-	    public ClienteBuilder carrinho(boolean trueOrFalse) {
-	    	if (trueOrFalse == true) {
-	    		Carrinho carrinho = new Carrinho();
-	    		carrinho.setDataEHoraAtualizacao(LocalDateTime.now());
-	    		carrinho.setCliente(this.cliente);
-	    		this.cliente.setCarrinho(carrinho);
-	    		return this;
-	    	}
-	    	return this;
-	    }
-	    
-		public ClienteBuilder comItemCarrinhoIdQuantidadeProduto(Long id, Integer quantidade, Long produtoId) {
-			ItemCarrinho itemCarrinho = ItemCarrinho.builder().id(id).quantidade(quantidade).produtoId(produtoId).dataEHoraInsercao(LocalDateTime.now()).build();
-			this.cliente.getCarrinho().adicionarItemCarrinho(itemCarrinho);
-			return this;
-		}
-	    
-	    public Cliente getCliente() {
-	        if(this.cliente != null) {
-	        	Cliente copiaCliente = new Cliente();
-	        	copiaCliente.setId(this.cliente.getId());
-	        	copiaCliente.setCpf(this.cliente.getCpf());
-	        	copiaCliente.setNome(this.cliente.getNome());
-	        	copiaCliente.setSobrenome(this.cliente.getSobrenome());
-	        	copiaCliente.setDataNascimento(this.cliente.getDataNascimento());
-	        	copiaCliente.setDataCriacaoConta(this.cliente.getDataCriacaoConta());
-	        	copiaCliente.setEmail(this.cliente.getEmail());
-	        	copiaCliente.setSenha(this.cliente.getSenha());
-	        	copiaCliente.setCelular(this.cliente.getCelular());
-	        	copiaCliente.setFotoPerfil(this.cliente.getFotoPerfil());
-	        	this.cliente.getRoles().forEach(role -> {
-	        		copiaCliente.adicionarRole(new Role(role.getId(), role.getDataAtribuicao(), role.getRole(), copiaCliente));
-	        	});
-	        	this.cliente = null;
-	        	return copiaCliente;
-	        }
-	        return null;
-	    }
-	    
-	    public List<Cliente> getClientes() {
-	        if(this.cliente != null) {
-	            listaClientes.add(this.cliente); // Adiciona o último produto configurado à lista
-	            this.cliente = null; // Reseta o produto atual da fábrica
-	        }
-	        List<Cliente> novaLista = new ArrayList<>(listaClientes);
-	        listaClientes.clear();
-	        return novaLista;
-	    }
-	}
 }

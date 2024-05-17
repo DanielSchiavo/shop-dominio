@@ -1,6 +1,9 @@
 package br.com.danielschiavo.shop.model.filestorage;
 
-public record PostImagemPedidoDTO(
+import lombok.Builder;
+
+@Builder
+public record PersistirOuRecuperarImagemPedidoDTO(
 		String nomePrimeiraImagemProduto,
 		Long idProduto
 		) {
